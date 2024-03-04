@@ -30,6 +30,7 @@ const edstemSynchronization = async () => {
                 title: `CS-108 Nouveau post !`,
                 message: lastThread.title,
                 url: `https://edstem.org/eu/courses/1101/discussion/${lastThread.id}`,
+                url_title: 'Let\'s Edstem this post!',
                 priority: 0
             });
     

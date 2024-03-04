@@ -16,14 +16,14 @@ const resetCache = () => writeCache({
 
 const edstemSynchronization = async () => {
 
-    fetch('https://eu.edstem.org/api/courses/1101/threads?limit=2&sort=new', {
+    fetch('https://eu.edstem.org/api/courses/1101/threads?limit=2&sort=new&filter=unresolved', {
         headers: {
             'X-Token': process.env.EDSTEM_TOKEN
         }
     })
     .then((data) => data.json())
     .then((data) => {
-        let lastThread = data.threads[1];
+        let lastThread = data.threads[0];
         console.log(data.threads)
         if (lastThread.id !== cache.lastThreadId) {
             sendNotification({

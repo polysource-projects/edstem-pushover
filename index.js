@@ -16,24 +16,26 @@ const resetCache = () => writeCache({
 
 const edstemSynchronization = async () => {
 
-    fetch('https://eu.edstem.org/api/courses/1101/threads?limit=1&sort=new', {
+    fetch('https://eu.edstem.org/api/courses/1101/threads?limit=2&sort=new', {
         headers: {
             'X-Token': process.env.EDSTEM_TOKEN
         }
     })
     .then((data) => data.json())
     .then((data) => {
-        let lastThreadId = data.threads[0].id;
-        if (lastThreadId !== cache.lastThreadId) {
+        let lastThread = data.threads[1];
+        console.log(data.threads)
+        if (lastThread.id !== cache.lastThreadId) {
             sendNotification({
                 title: `CS-108 Nouveau post !`,
-                message: data.threads[0].title,
+                message: lastThread.title,
+                url: `https://edstem.org/eu/courses/1101/discussion/${lastThread.id}`,
                 priority: 0
             });
     
             writeCache({
                 ...cache,
-                lastThreadId
+                lastThreadId: lastThread.id
             });
         }
     })

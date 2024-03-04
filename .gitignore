@@ -1,0 +1,5 @@
+# Node
+.env
+
+node_modules
+cache.json

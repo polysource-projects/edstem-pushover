@@ -109,9 +109,10 @@ const sendNotification = async (notification, groupToken) => {
     const content = await response.json();
     console.log(content)
 
+    /*
     if (content.status !== 1) {
         throw new Error('Pushover API error');
-    }
+    }*/
 }
 
 edstemSynchronization();

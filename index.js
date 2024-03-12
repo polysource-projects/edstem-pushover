@@ -104,7 +104,7 @@ const sendNotification = async (notification, groupToken) => {
             user: groupToken,
             ...notification
         })
-    });
+    }).catch(() => {});
 
     const content = await response.json();
     console.log(content)

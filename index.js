@@ -22,9 +22,9 @@ const resetCache = () => writeCache({
 
 const courseIds = {
     'CS108': '1101',
-    'COM102': '1182',
+    /*'COM102': '1182',
     'CS173': '1095',
-    'MA106': '1153'
+    'MA106': '1153'*/
 };
 
 const edstemSynchronization = async () => {
@@ -38,17 +38,17 @@ const edstemSynchronization = async () => {
                 'X-Token': process.env.EDSTEM_TOKEN
             }
         })).json()).threads;
-        console.log(threads);
-        let lastThread = threads[0];
-        if (!cache.lastThreadIds[course].includes(lastThread.id)) {
-            cache.lastThreadIds[course].push(lastThread.id);
-            sendNotification({
-                title: `${course} Question`,
-                message: lastThread.title,
-                url: `https://edstem.org/eu/courses/1101/discussion/${lastThread.id}`,
-                url_title: 'Let\'s Edstem this question!',
-                priority: 0
-            }, process.env[`${course}_GROUP_TOKEN`]);
+        for (const thread of threads) {
+            if (!cache.lastThreadIds[course].includes(thread.id)) {
+                cache.lastThreadIds[course].push(thread.id);
+                sendNotification({
+                    title: `${course} Question`,
+                    message: thread.title,
+                    url: `https://edstem.org/eu/courses/1101/discussion/${thread.id}`,
+                    url_title: 'Let\'s Edstem this question!',
+                    priority: 0
+                }, process.env[`${course}_GROUP_TOKEN`]);
+            }
         }
     }
 

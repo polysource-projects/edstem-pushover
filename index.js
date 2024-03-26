@@ -33,7 +33,7 @@ const edstemSynchronization = async () => {
 
     for (const [course, id] of Object.entries(courseIds)) {
         console.log(course, id);
-        const threads = (await (await fetch(`https://eu.edstem.org/api/courses/${id}/threads?limit=2&sort=new&filter=unresolved`, {
+        const threads = (await (await fetch(`https://eu.edstem.org/api/courses/${id}/threads?limit=5&sort=new&filter=unresolved`, {
             headers: {
                 'X-Token': process.env.EDSTEM_TOKEN
             }

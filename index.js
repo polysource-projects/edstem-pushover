@@ -24,7 +24,7 @@ const courseIds = {
     'CS108': '1101',
     'COM102': '1182',
     'CS173': '1095',
-    'MA106': '1153'
+    //'MA106': '1153'
 };
 
 const discordWebhooks = {
@@ -101,7 +101,9 @@ if (!fs.existsSync("cache.json")) {
 
 const sendNotification = async (notification, groupToken, course) => {
 
-    if (firstRestart) return;
+    //if (firstRestart) return;
+
+    console.log(notification);
 
     const appToken = process.env.APP_TOKEN;
 
@@ -133,16 +135,10 @@ const sendNotification = async (notification, groupToken, course) => {
         body: JSON.stringify({
             embeds: [
                 {
-                    title: notification.title,
-                    description: notification.message,
+                    title: notification.message,
                     url: notification.url,
-                    color: 0x00FF00,
-                    fields: [
-                        {
-                            name: 'Link',
-                            value: `[${notification.url_title}](${notification.url})`
-                        }
-                    ]
+                    color: 0x874fdb,
+                    timestamp: new Date().toISOString(),
                 }
             ]
         })

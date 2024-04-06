@@ -101,9 +101,7 @@ if (!fs.existsSync("cache.json")) {
 
 const sendNotification = async (notification, groupToken, course) => {
 
-    //if (firstRestart) return;
-
-    console.log(notification);
+    if (firstRestart) return;
 
     const appToken = process.env.APP_TOKEN;
 

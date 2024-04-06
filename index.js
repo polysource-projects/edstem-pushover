@@ -28,10 +28,10 @@ const courseIds = {
 };
 
 const discordWebhooks = {
-    'CS108': process.env.CS108_WEBHOOK,
-    'COM102': process.env.COM102_WEBHOOK,
-    'CS173': process.env.CS173_WEBHOOK,
-    'MA106': process.env.MA106_WEBHOOK
+    'CS108': process.env.CS108_DISCORD_WEBHOOK,
+    'COM102': process.env.COM102_DISCORD_WEBHOOK,
+    'CS173': process.env.CS173_DISCORD_WEBHOOK,
+    'MA106': process.env.MA106_DISCORD_WEBHOOK
 };
 
 let firstRestart = true;

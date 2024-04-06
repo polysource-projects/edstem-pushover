@@ -22,9 +22,9 @@ const resetCache = () => writeCache({
 
 const courseIds = {
     'CS108': '1101',
-    /*'COM102': '1182',
+    'COM102': '1182',
     'CS173': '1095',
-    'MA106': '1153'*/
+    'MA106': '1153'
 };
 
 const edstemSynchronization = async () => {

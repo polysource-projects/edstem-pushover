@@ -27,6 +27,15 @@ const courseIds = {
     'MA106': '1153'
 };
 
+const discordWebhooks = {
+    'CS108': process.env.CS108_WEBHOOK,
+    'COM102': process.env.COM102_WEBHOOK,
+    'CS173': process.env.CS173_WEBHOOK,
+    'MA106': process.env.MA106_WEBHOOK
+};
+
+let firstRestart = true;
+
 const edstemSynchronization = async () => {
 
     const lastThreadIds = cache.lastThreadIds;
@@ -47,7 +56,7 @@ const edstemSynchronization = async () => {
                     url: `https://edstem.org/eu/courses/1101/discussion/${thread.id}`,
                     url_title: 'Let\'s Edstem this question!',
                     priority: 0
-                }, process.env[`${course}_GROUP_TOKEN`]);
+                }, process.env[`${course}_GROUP_TOKEN`], course);
             }
         }
     }
@@ -74,6 +83,8 @@ const edstemSynchronization = async () => {
         lastThreadIds
     });
 
+    firstRestart = false;
+
 };
 
 // Si le fichier cache n'existe pas, on le créé
@@ -88,7 +99,9 @@ if (!fs.existsSync("cache.json")) {
     }
 }
 
-const sendNotification = async (notification, groupToken) => {
+const sendNotification = async (notification, groupToken, course) => {
+
+    if (firstRestart) return;
 
     const appToken = process.env.APP_TOKEN;
 
@@ -107,7 +120,33 @@ const sendNotification = async (notification, groupToken) => {
     }).catch(() => {});
 
     const content = await response.json();
-    console.log(content)
+    console.log(content);
+
+    if (!course) return;
+    if (!discordWebhooks[course]) return;
+    
+    await fetch(discordWebhooks[course], {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+            embeds: [
+                {
+                    title: notification.title,
+                    description: notification.message,
+                    url: notification.url,
+                    color: 0x00FF00,
+                    fields: [
+                        {
+                            name: 'Link',
+                            value: `[${notification.url_title}](${notification.url})`
+                        }
+                    ]
+                }
+            ]
+        })
+    }).catch(() => {});
 
     /*
     if (content.status !== 1) {

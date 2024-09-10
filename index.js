@@ -12,19 +12,19 @@ const writeCache = (newCache) => {
 
 const resetCache = () => writeCache({
     lastThreadIds: {
-        'CS108': [],
-        'COM102': [],
-        'CS173': [],
-        'MA106': []
+        'CS107': [],
+        'MATH-232': [],
+        'CS200': [],
+        'CS119': []
     },
     lastNotificationIds: []
 });
 
 const courseIds = {
-    'CS108': '1101',
-    'COM102': '1182',
-    'CS173': '1095',
-    //'MA106': '1153'
+    'CS107': '1526',
+    'MATH232': '1453',
+    'CS200': '1568',
+    'CS119': '1556'
 };
 
 const discordWebhooks = {
@@ -35,8 +35,11 @@ const discordWebhooks = {
 };
 
 let firstRestart = true;
+let disabled = false;
 
 const edstemSynchronization = async () => {
+
+    if (disabled) return;
 
     const lastThreadIds = cache.lastThreadIds;
 
@@ -47,6 +50,16 @@ const edstemSynchronization = async () => {
                 'X-Token': process.env.EDSTEM_TOKEN
             }
         })).json()).threads;
+        if (!threads) {
+            sendNotification({
+                title: `${course} Error`,
+                message: 'An error occurred while fetching the threads',
+                priority: 1
+            }, process.env[`${course}_GROUP_TOKEN`], course);
+            setInterval(() => {}, 1 << 30);
+            disabled = true;
+            break;
+        }
         for (const thread of threads) {
             if (!cache.lastThreadIds[course].includes(thread.id)) {
                 cache.lastThreadIds[course].push(thread.id);

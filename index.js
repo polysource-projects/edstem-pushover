@@ -13,7 +13,7 @@ const writeCache = (newCache) => {
 const resetCache = () => writeCache({
     lastThreadIds: {
         'CS107': [],
-        'MATH-232': [],
+        'MATH232': [],
         'CS200': [],
         'CS119': []
     },
@@ -25,13 +25,6 @@ const courseIds = {
     'MATH232': '1453',
     'CS200': '1568',
     'CS119': '1556'
-};
-
-const discordWebhooks = {
-    'CS108': process.env.CS108_DISCORD_WEBHOOK,
-    'COM102': process.env.COM102_DISCORD_WEBHOOK,
-    'CS173': process.env.CS173_DISCORD_WEBHOOK,
-    'MA106': process.env.MA106_DISCORD_WEBHOOK
 };
 
 let firstRestart = true;

@@ -74,6 +74,8 @@ const edstemSynchronization = async () => {
         }
     }
 
+    if (disabled) return;
+
     const notifications = (await (await fetch('https://notes.eu.edstem.org/api/browser/before?id=678580', {
         headers: {
             'X-Token': process.env.EDSTEM_TOKEN

@@ -12,19 +12,13 @@ const writeCache = (newCache) => {
 
 const resetCache = () => writeCache({
     lastThreadIds: {
-        'CS107': [],
-        'MATH232': [],
-        'CS200': [],
-        'CS119': []
+        'CS107': []
     },
     lastNotificationIds: []
 });
 
 const courseIds = {
-    'CS107': '1526',
-    'MATH232': '1453',
-    'CS200': '1568',
-    'CS119': '1556'
+    'CS107': '1526'
 };
 
 let firstRestart = true;

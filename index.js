@@ -21,6 +21,8 @@ const courseIds = {
     'CS107': '1526'
 };
 
+const discordWebhooks = {};
+
 let firstRestart = true;
 let disabled = false;
 

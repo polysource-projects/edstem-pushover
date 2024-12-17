@@ -32,6 +32,8 @@ const edstemSynchronization = async () => {
 
     const lastThreadIds = cache.lastThreadIds;
 
+    let worked = false;
+
     for (const [course, id] of Object.entries(courseIds)) {
         console.log(course, id);
         const threads = (await (await fetch(`https://eu.edstem.org/api/courses/${id}/threads?limit=5&sort=new&filter=unresolved`, {
@@ -50,6 +52,7 @@ const edstemSynchronization = async () => {
             break;
         }
         for (const thread of threads) {
+            worked = true;
             if (!cache.lastThreadIds[course].includes(thread.id)) {
                 cache.lastThreadIds[course].push(thread.id);
                 sendNotification({
@@ -87,7 +90,14 @@ const edstemSynchronization = async () => {
         lastThreadIds
     });
 
-    firstRestart = false;
+    if (firstRestart) {
+        firstRestart = false;
+        sendNotification({
+            title: `ED Notification`,
+            message: 'The bot has been restarted (worked=' + worked + ')',
+            priority: 0
+        }, process.env.NOTIFICATIONS_GROUP_TOKEN);
+    }
 
 };
 
@@ -105,7 +115,9 @@ if (!fs.existsSync("cache.json")) {
 
 const sendNotification = async (notification, groupToken, course) => {
 
-    if (firstRestart) return;
+    if (firstRestart) {
+        return;
+    }
 
     const appToken = process.env.APP_TOKEN;
 
@@ -128,7 +140,7 @@ const sendNotification = async (notification, groupToken, course) => {
 
     if (!course) return;
     if (!discordWebhooks[course]) return;
-    
+
     await fetch(discordWebhooks[course], {
         method: 'POST',
         headers: {

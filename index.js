@@ -58,7 +58,7 @@ const edstemSynchronization = async () => {
                 sendNotification({
                     title: `${course} Question`,
                     message: thread.title,
-                    url: `https://edstem.org/eu/courses/1101/discussion/${thread.id}`,
+                    url: `https://edstem.org/eu/courses/${id}/discussion/${thread.id}`,
                     url_title: 'Let\'s Edstem this question!',
                     priority: 0
                 }, process.env[`${course}_GROUP_TOKEN`], course);

@@ -12,7 +12,8 @@ const writeCache = (newCache) => {
 
 const resetCache = () => writeCache({
     lastThreadIds: {
-        'CS107': []
+        'CS173': [],
+        'COM102': []
     },
     lastNotificationIds: []
 });

@@ -53,9 +53,12 @@ const edstemSynchronization = async () => {
             disabled = true;
             break;
         }
+        console.log("CourseID: " + id);
+        console.log("Thread IDS: " + threads.map(thread => thread.id));
         for (const thread of threads) {
             worked = true;
             try {
+                console.log(cache);
                 if (!cache.lastThreadIds[course].includes(thread.id)) {
                     cache.lastThreadIds[course].push(thread.id);
                     sendNotification({
@@ -70,6 +73,7 @@ const edstemSynchronization = async () => {
                 console.error(e);
                 console.log('Something went wrong, resetting cache');
                 resetCache();
+                return;
             }
         }
     }

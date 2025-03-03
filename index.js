@@ -18,7 +18,8 @@ const resetCache = () => writeCache({
 });
 
 const courseIds = {
-    'CS107': '1526'
+    'CS173': '1549',
+    'COM102': '1911'
 };
 
 const discordWebhooks = {};

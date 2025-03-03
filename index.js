@@ -49,21 +49,27 @@ const edstemSynchronization = async () => {
                 message: 'An error occurred while fetching the threads',
                 priority: 1
             }, process.env[`${course}_GROUP_TOKEN`], course);
-            setInterval(() => {}, 1 << 30);
+            setInterval(() => { }, 1 << 30);
             disabled = true;
             break;
         }
         for (const thread of threads) {
             worked = true;
-            if (!cache.lastThreadIds[course].includes(thread.id)) {
-                cache.lastThreadIds[course].push(thread.id);
-                sendNotification({
-                    title: `${course} Question`,
-                    message: thread.title,
-                    url: `https://edstem.org/eu/courses/${id}/discussion/${thread.id}`,
-                    url_title: 'Let\'s Edstem this question!',
-                    priority: 0
-                }, process.env[`${course}_GROUP_TOKEN`], course);
+            try {
+                if (!cache.lastThreadIds[course].includes(thread.id)) {
+                    cache.lastThreadIds[course].push(thread.id);
+                    sendNotification({
+                        title: `${course} Question`,
+                        message: thread.title,
+                        url: `https://edstem.org/eu/courses/${id}/discussion/${thread.id}`,
+                        url_title: 'Let\'s Edstem this question!',
+                        priority: 0
+                    }, process.env[`${course}_GROUP_TOKEN`], course);
+                }
+            } catch (e) {
+                console.error(e);
+                console.log('Something went wrong, resetting cache');
+                resetCache();
             }
         }
     }
@@ -135,7 +141,7 @@ const sendNotification = async (notification, groupToken, course) => {
             user: groupToken,
             ...notification
         })
-    }).catch(() => {});
+    }).catch(() => { });
 
     const content = await response.json();
     console.log(content);
@@ -158,7 +164,7 @@ const sendNotification = async (notification, groupToken, course) => {
                 }
             ]
         })
-    }).catch(() => {});
+    }).catch(() => { });
 
     /*
     if (content.status !== 1) {

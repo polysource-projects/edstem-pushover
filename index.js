@@ -177,7 +177,7 @@ const sendNotification = async (notification, groupToken, course) => {
 }
 
 edstemSynchronization();
-setInterval(() => edstemSynchronization(), 60_000);
+setInterval(() => edstemSynchronization(), 30_000);
 
 // catch all errors
 process.on('uncaughtException', (err) => {
